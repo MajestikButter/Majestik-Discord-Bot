@@ -1,6 +1,5 @@
 {
     "prefix": "m;",
-    "trackDeletedUsers": [],
     "commands": {
         "say": {
             "blacklisted": false,
