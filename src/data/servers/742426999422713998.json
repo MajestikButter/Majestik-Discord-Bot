@@ -1,0 +1,26 @@
+{
+    "prefix": "m;",
+    "trackDeletedUsers": [],
+    "commands": {
+        "say": {
+            "blacklisted": false,
+            "whitelisted_channels": []
+        },
+        "8ball": {
+            "blacklisted": false,
+            "whitelisted_channels": []
+        },
+        "help": {
+            "blacklisted": false,
+            "whitelisted_channels": []
+        },
+        "gen_manifest": {
+            "blacklisted": false,
+            "whitelisted_channels": []
+        },
+        "repeat": {
+            "blacklisted": true,
+            "whitelisted_channels": []
+        }
+    }
+}
