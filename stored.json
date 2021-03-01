@@ -1,0 +1,72 @@
+{
+  "command_storage": {
+    "8ball": {
+      "choices": [
+        "Yes",
+        "No",
+        "Maybe",
+        "Stfu",
+        "Try again",
+        "Yea boiii",
+        "Nope",
+        "Nah",
+        "Sure",
+        "Banana",
+        "Dooty",
+        "Poo",
+        "Old mc donald said yes",
+        "Old mc donald said no",
+        "Quackers"
+      ]
+    }
+  },
+  "commands": [
+    "say",
+    "8ball",
+    "help",
+    "repeat",
+    "gen_manifest"
+  ],
+  "settings": {
+    "766165434776027177": {
+      "deleteCmdMsg": true,
+      "prefix": "m/",
+      "trackDeletedUsers": [
+        505866232197546024
+      ],
+      "blacklistedCmds": [],
+      "whitelistedCmds": {}
+    },
+    "742426999422713998": {
+      "deleteCmdMsg": true,
+      "prefix": "m;",
+      "trackDeletedUsers": [
+        386403808118439946,
+        287373850520322048,
+        710744237712343052,
+        624427932177137664,
+        298134604882247680
+      ],
+      "blacklistedCmds": [
+        "repeat"
+      ],
+      "whitelistedCmds": {}
+    },
+    "793619316641628200": {
+      "deleteCmdMsg": true,
+      "prefix": "m/",
+      "trackDeletedUsers": [],
+      "blacklistedCmds": [],
+      "whitelistedCmds": {}
+    },
+    "803836467763740693": {
+      "deleteCmdMsg": true,
+      "prefix": "m/",
+      "trackDeletedUsers": [],
+      "blacklistedCmds": [
+        "repeat"
+      ],
+      "whitelistedCmds": {}
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Majestik-Discord-Bot",
+  "version": "1.0.0",
+  "description": "A general discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MajestikButter/Majestik-Discord-Bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MajestikButter/Majestik-Discord-Bot/issues"
+  },
+  "homepage": "https://github.com/MajestikButter/Majestik-Discord-Bot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0"
+  }
+}
