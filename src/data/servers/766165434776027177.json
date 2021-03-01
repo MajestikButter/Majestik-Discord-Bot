@@ -1,25 +1,40 @@
 {
     "prefix": "m;",
     "commands": {
-        "say": {
-            "blacklisted": false,
-            "whitelisted_channels": []
-        },
-        "8ball": {
-            "blacklisted": false,
-            "whitelisted_channels": []
-        },
         "help": {
             "blacklisted": false,
             "whitelisted_channels": []
         },
-        "gen_manifest": {
+        "list-cmd": {
             "blacklisted": false,
             "whitelisted_channels": []
         },
-        "repeat": {
+        "add-cmd": {
             "blacklisted": false,
             "whitelisted_channels": []
+        },
+        "remove-cmd": {
+            "blacklisted": false,
+            "whitelisted_channels": []
+        }
+    },
+    "custom_cmds": {
+        "test": {
+            "aliases": [],
+            "add_roles": [],
+            "remove_roles": [],
+            "react_with": [
+                {
+                    "id": "797636086846193724",
+                    "react_to": "bot"
+                }
+            ],
+            "send_text": {
+                "msg": "${sender} old mc donald had a farm",
+                "delete_after": false,
+                "to": "channel"
+            },
+            "delete_sender_msg": false
         }
     }
 }

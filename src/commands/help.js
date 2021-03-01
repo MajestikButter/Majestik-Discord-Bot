@@ -1,5 +1,4 @@
 require('discord.js');
-require('fs');
 
 function on_run(msg,args,argsStr){
     helpMsg = `a
@@ -10,5 +9,5 @@ e`
     msg.channel.send(helpMsg)
 };
 
-const aliases = ['help','?'];
-module.exports = {aliases,on_run};
+const aliases = ['help','?','h'];
+module.exports = {aliases, on_run};
