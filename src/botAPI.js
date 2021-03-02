@@ -49,7 +49,7 @@ function requiresSentMsg(msg,args,argsStr,responseJson,botMsg){
 
 function responseEntries(msg,args,argsStr,responseJson){
     if (responseJson.send_text.msg){
-        if (typeof(responseJson.send_text) != String) {
+        if (typeof(responseJson.send_text.msg) != String) {
             errorInvType(msg,'response/send_text/msg',responseJson.send_text.msg,'String');
             return;
         };
