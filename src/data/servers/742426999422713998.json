@@ -39,7 +39,7 @@
                     }
                 ],
                 "send_text": {
-                    "msg": "${sender} old mc donald had a farm",
+                    "msg": "${sender} old mc donald had no farm",
                     "delete_after": false,
                     "to": "channel"
                 }
