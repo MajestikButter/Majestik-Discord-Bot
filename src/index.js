@@ -46,6 +46,9 @@ bot.on('message', (msg) => {
             invalid = false;
         };
     });
+
+    if (invalid == false)
+        return;
     
     const customCmds = getServerFile(msg.guild.id).bot_api.cmds;
     for (let cmdName in customCmds){
