@@ -2,7 +2,7 @@ require('discord.js');
 const fs = require('fs');
 
 function getServerFile(id){
-    let srcDir = __dirname.replace('\\commands','')
+    let srcDir = __dirname.replace('\\commands','').replace('/commands','')
     return JSON.parse(fs.readFileSync(srcDir+'/data/servers/'+id+'.json'));
 };
 
