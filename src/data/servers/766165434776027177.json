@@ -18,23 +18,32 @@
             "whitelisted_channels": []
         }
     },
-    "custom_cmds": {
-        "test": {
-            "aliases": [],
-            "add_roles": [],
-            "remove_roles": [],
-            "react_with": [
-                {
-                    "id": "797636086846193724",
-                    "react_to": "bot"
+    "bot_api": {
+        "cmds": {
+            "test": {
+                "aliases": [
+                    "t"
+                ],
+                "delete_sender_msg": true,
+                "response": "test"
+            }
+        },
+        "responses": {
+            "test": {
+                "add_roles": [],
+                "remove_roles": [],
+                "react_with": [
+                    {
+                        "id": "fatmario:797636086846193724",
+                        "react_to": "bot"
+                    }
+                ],
+                "send_text": {
+                    "msg": "${sender} old mc donald had a farm",
+                    "delete_after": false,
+                    "to": "channel"
                 }
-            ],
-            "send_text": {
-                "msg": "${sender} old mc donald had a farm",
-                "delete_after": false,
-                "to": "channel"
-            },
-            "delete_sender_msg": false
+            }
         }
     }
 }

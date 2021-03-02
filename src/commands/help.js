@@ -9,5 +9,5 @@ e`
     msg.channel.send(helpMsg)
 };
 
-const aliases = ['help','?','h'];
+const aliases = ['?','h'];
 module.exports = {aliases, on_run};

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const fs = require('fs');
-const custom_cmd_parser = require('./customCmdParser');
+const botAPI = require('./botAPI');
+const botTriggers = new botAPI.triggers()
 const msgParser = require('./msgParser');
 
 const { Client } = require('discord.js');
@@ -38,23 +39,25 @@ bot.on('message', (msg) => {
     const msgCmd = args.shift().toLowerCase();
     const argsStr = msg.content.substring(prefix.length+msgCmd.length).trim();
 
+    let invalid = true;
     cmds.forEach(cmd => {
         if (cmd.aliases.indexOf(msgCmd) >= 0) {
-            cmd.on_run(msg,args,argsStr)
-            return;
+            cmd.on_run(msg,args,argsStr);
+            invalid = false;
         };
     });
     
-    const custom_cmds = getServerFile(msg.guild.id).custom_cmds;
-    for (let cmdName in custom_cmds){
-        let cmd = custom_cmds[cmdName];
+    const customCmds = getServerFile(msg.guild.id).bot_api.cmds;
+    for (let cmdName in customCmds){
+        let cmd = customCmds[cmdName];
         if (cmd.aliases.indexOf(msgCmd) >= 0 || cmdName == msgCmd){
-            custom_cmd_parser.on_run(msg,args,argsStr,cmd);
-            return;
+            botTriggers.cmd(msg,args,argsStr,cmd);
+            invalid = false;
         };
     };
     
-    msg.channel.send('Invalid Command').then(sentMsg => {sentMsg.delete({timeout:2000})});
+    if (invalid == true)
+        msg.channel.send('Invalid Command').then(sentMsg => {sentMsg.delete({timeout:2000})});
 });
 
 bot.on('ready', () => {

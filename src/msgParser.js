@@ -1,3 +1,5 @@
+require('discord.js');
+
 function parse(sending,msg){
     parsed = sending.toLowerCase().
     replace('${sender}',`<@${msg.author.id}>`);
