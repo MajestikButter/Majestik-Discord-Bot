@@ -1,0 +1,83 @@
+{
+    "prefix": "m;",
+    "commands": {
+        "help": {
+            "blacklisted": false,
+            "whitelisted_channels": []
+        },
+        "list-cmd": {
+            "blacklisted": false,
+            "whitelisted_channels": []
+        },
+        "add-cmd": {
+            "blacklisted": false,
+            "whitelisted_channels": []
+        },
+        "remove-cmd": {
+            "blacklisted": false,
+            "whitelisted_channels": []
+        }
+    },
+    "bot_api": {
+        "cmds": {
+            "test": {
+                "aliases": [
+                    "t"
+                ],
+                "delete_sender_msg": false,
+                "responses": {
+                    "poo": "${any} arg.0 == 'apple'",
+                    "test": true,
+                    "poo2": "${all} arg.0 == 'pineapple' arg.0 == 'banana'"
+                }
+            }
+        },
+        "responses": {
+            "test": {
+                "add_roles": [],
+                "remove_roles": [],
+                "react_with": [
+                    {
+                        "id": "fatmario:797636086846193724",
+                        "react_to": "bot"
+                    }
+                ],
+                "send_text": {
+                    "msg": "${sender} old mc donald had a farm",
+                    "delete_after": false,
+                    "to": "channel"
+                }
+            },
+            "poo": {
+                "add_roles": [],
+                "remove_roles": [],
+                "react_with": [
+                    {
+                        "id": "💩",
+                        "react_to": "bot"
+                    }
+                ],
+                "send_text": {
+                    "msg": "${sender} is poo",
+                    "delete_after": false,
+                    "to": "channel"
+                }
+            },
+            "poo2": {
+                "add_roles": [],
+                "remove_roles": [],
+                "react_with": [
+                    {
+                        "id": "💩",
+                        "react_to": "bot"
+                    }
+                ],
+                "send_text": {
+                    "msg": "${sender} is poo poo",
+                    "delete_after": false,
+                    "to": "channel"
+                }
+            }
+        }
+    }
+}

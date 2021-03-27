@@ -20,6 +20,7 @@
   "dependencies": {
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "import-modules": "^2.1.0"
+    "import-modules": "^2.1.0",
+    "simple-git": "^2.35.2"
   }
 }

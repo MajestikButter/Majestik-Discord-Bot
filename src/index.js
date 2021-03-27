@@ -8,14 +8,16 @@ const { Client } = require('discord.js');
 const bot = new Client();
 
 function getPrefix(guild){
-    const filePath = __dirname +'/data/servers/'+guild.id+'.json';
+    let rootDir = __dirname.replace('\\src','').replace('/src','')
+    const filePath = rootDir+'/data/servers/'+guild.id+'.json';
     const content = fs.readFileSync(filePath, 'utf8');
     serverObject = JSON.parse(content);
     return serverObject.prefix;
 };
 
 function getServerFile(id){
-    return JSON.parse(fs.readFileSync(__dirname+'/data/servers/'+id+'.json'));
+    let rootDir = __dirname.replace('\\src','').replace('/src','')
+    return JSON.parse(fs.readFileSync(rootDir+'/data/servers/'+id+'.json'));
 }
 
 let cmds = []
