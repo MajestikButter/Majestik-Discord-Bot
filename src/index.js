@@ -6,7 +6,8 @@ const msgParser = require('./msgParser');
 
 const { Client } = require('discord.js');
 const bot = new Client();
-const serverDataDir = __dirname.replace('\\src', '').replace('/src', '') + '/data/servers/'
+const rootDir = __dirname.replace('\\src', '').replace('/src', '');
+const serverDataDir = rootDir + '/data/servers/';
 
 
 function getServerFile(id) {
@@ -70,7 +71,7 @@ bot.on('message', (msg) => {
 bot.on('guildCreate', (guild) => {
     if (getServerFile(guild.id) != null) return;
 
-    let template = fs.readFileSync(serverDataDir + '.template.json');
+    let template = fs.readFileSync(serverDataDir + '.template');
     fs.writeFileSync(serverDataDir + guild.id + '.json', template);
 });
 
