@@ -36,6 +36,12 @@ function loadCmds() {
 loadCmds();
 
 bot.on('message', (msg) => {
+    if (getServerFile(guild.id) != null) return;
+
+    let template = fs.readFileSync(serverDataDir + '.template');
+    fs.writeFileSync(serverDataDir + guild.id + '.json', template);
+
+    
     const prefix = getPrefix(msg.guild);
     if (!msg.content.startsWith(prefix))
         return;
