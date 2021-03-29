@@ -1,2 +1,5 @@
 node_modules
 .env
+data
+!data/servers/.template.json
+!data/users/.template.json
