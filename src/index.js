@@ -11,11 +11,15 @@ const serverDataDir = rootDir + '/data/servers/';
 
 
 function getServerFile(id) {
-    let serverObject = JSON.parse(fs.readFileSync(serverDataDir + id + '.json'));
+    let path = serverDataDir + id + '.json'
+    try {
+        fs.accessSync(path, fs.constants.F_OK);
 
-    if (serverObject) return serverObject;
-
-    return null;
+        let serverObject = JSON.parse(fs.readFileSync(path));
+        return serverObject;
+    } catch (err) {
+        return null;
+    }
 }
 
 function getPrefix(guild) {
@@ -36,15 +40,13 @@ function loadCmds() {
 loadCmds();
 
 bot.on('message', (msg) => {
-    if (getServerFile(guild.id) != null) return;
+    if (getServerFile(msg.guild.id) == null){
+        let template = fs.readFileSync(serverDataDir + '.template');
+        fs.writeFileSync(serverDataDir + msg.guild.id + '.json', template);
+    };
 
-    let template = fs.readFileSync(serverDataDir + '.template');
-    fs.writeFileSync(serverDataDir + guild.id + '.json', template);
-
-    
     const prefix = getPrefix(msg.guild);
-    if (!msg.content.startsWith(prefix))
-        return;
+    if (!msg.content.startsWith(prefix)) return;
 
     const args = msg.content.substring(prefix.length).trim().split(' ');
     const msgCmd = args.shift().toLowerCase();
