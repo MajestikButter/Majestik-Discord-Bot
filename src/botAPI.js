@@ -1,5 +1,6 @@
 require('discord.js');
 const fs = require('fs');
+const { stringify } = require('querystring');
 const { getServerFile, appendObj, baseResponse } = require('./global');
 const msgParser = require('./msgParser');
 
@@ -28,9 +29,10 @@ function parseCondition(condition, args) {
     }
     splitStr[i] = entry;
   }
-  for (let i in splitStr) {
-    let ind = splitStr.indexOf(i);;
-    switch (i) {
+  for (let ind = 0; ind < splitStr.length; ind++) {
+    let entry = splitStr[ind];
+
+    switch (entry) {
       case "==":
         if (splitStr[ind - 1] == splitStr[ind + 1]) {
           has_true = true;
