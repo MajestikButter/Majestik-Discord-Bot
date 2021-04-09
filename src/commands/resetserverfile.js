@@ -1,3 +1,9 @@
+const aliases = ['resetserverfile','rsf'];
+const description = "Resets this server's data file";
+const usage = 'rsf';
+const permissions = ['MANAGE_GUILD'];
+
+
 require('discord.js');
 const fs = require('fs');
 const rootDir = __dirname.replace('\\src\\commands', '').replace('/src/commands', '');
@@ -11,5 +17,4 @@ function on_run(msg, args, argsStr) {
     msg.channel.send(`Reset this server's data file`);
 }
 
-const aliases = ['rsf'];
-module.exports = { aliases, on_run };
+module.exports = { aliases, description, usage, permissions, on_run };

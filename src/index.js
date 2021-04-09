@@ -5,45 +5,15 @@ const botTriggers = new botAPI.triggers()
 const msgParser = require('./msgParser');
 
 const { Client } = require('discord.js');
+const { cmds, serverDataDir, getServerFile, getPrefix, appendObj, baseCmd } = require('./global');
 const bot = new Client();
-const rootDir = __dirname.replace('\\src', '').replace('/src', '');
-const serverDataDir = rootDir + '/data/servers/';
 
-
-function getServerFile(id) {
-    let path = serverDataDir + id + '.json'
-    try {
-        fs.accessSync(path, fs.constants.F_OK);
-
-        let serverObject = JSON.parse(fs.readFileSync(path));
-        return serverObject;
-    } catch (err) {
-        return null;
-    }
-}
-
-function getPrefix(guild) {
-    let serverObject = getServerFile(guild.id);
-    return serverObject.prefix;
-}
-
-let cmds = []
-
-function loadCmds() {
-    const cmdFileNames = fs.readdirSync(__dirname + '/commands/');
-    cmdFileNames.forEach(fileName => {
-        currCmd = require('./commands/' + fileName);
-        cmds.push(currCmd);
-    });
-}
-
-loadCmds();
 
 bot.on('message', (msg) => {
-    if (getServerFile(msg.guild.id) == null){
+    if (getServerFile(msg.guild.id) == null) {
         let template = fs.readFileSync(serverDataDir + '.template');
         fs.writeFileSync(serverDataDir + msg.guild.id + '.json', template);
-    };
+    }
 
     const prefix = getPrefix(msg.guild);
     if (!msg.content.startsWith(prefix)) return;
@@ -51,11 +21,21 @@ bot.on('message', (msg) => {
     const args = msg.content.substring(prefix.length).trim().split(' ');
     const msgCmd = args.shift().toLowerCase();
     const argsStr = msg.content.substring(prefix.length + msgCmd.length).trim();
+    const permissions = msg.guild.member(msg.author).permissionsIn(msg.channel).toArray();
 
     let invalid = true;
-    cmds.forEach(cmd => {
+    cmds().forEach(cmd => {
         if (cmd.aliases.indexOf(msgCmd) >= 0) {
-            cmd.on_run(msg, args, argsStr);
+            let hasPermission = true;
+            if (cmd.permissions.length >= 0) for (let i in cmd.permissions) {
+                let permission = cmd.permissions[i];
+                if (!permissions.includes(permission)) hasPermission = false;
+            }
+            if (hasPermission) {
+                cmd.on_run(msg, args, argsStr);
+            } else {
+                msg.channel.send('Missing Required Permissions').then(sentMsg => { sentMsg.delete({ timeout: 2000 }) });
+            }
             invalid = false;
         }
     });
@@ -66,8 +46,19 @@ bot.on('message', (msg) => {
     const customCmds = getServerFile(msg.guild.id).bot_api.cmds;
     for (let cmdName in customCmds) {
         let cmd = customCmds[cmdName];
+        appendObj(cmd, baseCmd);
         if (cmd.aliases.indexOf(msgCmd) >= 0 || cmdName == msgCmd) {
-            botTriggers.cmd(msg, args, argsStr, cmd);
+            let hasPermission = true;
+            if (cmd.permissions.length >= 0) for (let i in cmd.permissions) {
+                let permission = cmd.permissions[i];
+                if (!permissions.includes(permission)) hasPermission = false;
+            }
+            if (hasPermission) {
+                botTriggers.cmd(msg, args, argsStr, cmd);
+            } else {
+                msg.channel.send('Missing Required Permissions').then(sentMsg => { sentMsg.delete({ timeout: 2000 }) });
+            }
+
             invalid = false;
         }
     }
