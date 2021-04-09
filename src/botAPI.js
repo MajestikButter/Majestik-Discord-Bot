@@ -69,6 +69,7 @@ function parseCondition(condition, args) {
 
 class triggers {
   cmd(msg, args, argsStr, cmdJson) {
+    parseTree(cmdJson.responses, msg);
     for (let cmdResponse in cmdJson.responses) {
       let condition = cmdJson.responses[cmdResponse];
       let run = parseCondition(condition, args);
@@ -109,6 +110,7 @@ function requiresSentMsg(msg, args, argsStr, responseJson, botMsg) {
 
 function responseEntries(msg, args, argsStr, responseJson) {
   appendObj(responseJson, baseResponse);
+  parseTree(responseJson, msg);
 
   if (typeof (responseJson.send_msg) != 'object' || Array.isArray(responseJson.send_msg)) {
     errorInvType(msg, 'response/send_msg', responseJson.send_msg, 'Object');
@@ -124,7 +126,6 @@ function responseEntries(msg, args, argsStr, responseJson) {
       errorInvType(msg, 'response/send_msg/embed', responseJson.send_msg.embed, 'Object');
       return;
     }
-    parseTree(responseJson, msg);
 
     let deleteAfter = 0;
     if (responseJson.send_msg.deleteAfter) {
