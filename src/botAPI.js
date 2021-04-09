@@ -7,6 +7,13 @@ function errorInvType(msg, location, subject, allowed) {
   msg.channel.send(`Error: ${location} | Invalid type '${typeof (subject)}', Allowed Types: ${allowed}`);
 }
 
+function parseTree(obj, msg) {
+  for (let i in obj) {
+    if (typeof (obj[i]) == 'string') obj[i] = msgParser.parse(obj[i], msg);
+    if (typeof (obj[i]) == 'object' && ((Array.isArray(obj[i]) && obj[i].length > -1) || (!Array.isArray(obj[i]) && JSON.stringify(obj[i])!= '{}'))) parseTree(obj[i], msg);
+  }
+}
+
 function parseCondition(condition, args) {
   if (typeof (condition) == 'boolean')
     return condition;
@@ -117,7 +124,8 @@ function responseEntries(msg, args, argsStr, responseJson) {
       errorInvType(msg, 'response/send_msg/embed', responseJson.send_msg.embed, 'Object');
       return;
     }
-    let sendMsg = msgParser.parse(responseJson.send_msg.text, msg);
+    parseTree(responseJson, msg);
+
     let deleteAfter = 0;
     if (responseJson.send_msg.deleteAfter) {
       deleteAfter = responseJson.send_msg.deleteAfter;
@@ -132,13 +140,13 @@ function responseEntries(msg, args, argsStr, responseJson) {
 
     switch (to) {
       case "sender":
-        msg.author.send(sendMsg, sendOpt).then(sentMsg => {
+        msg.author.send(responseJson.send_msg.text, sendOpt).then(sentMsg => {
           requiresSentMsg(msg, args, argsStr, responseJson, sentMsg);
           if (deleteAfter > 0) sentMsg.delete({ timeout: deleteAfter });
         });
         break;
       case "channel":
-        msg.channel.send(sendMsg, sendOpt).then(sentMsg => {
+        msg.channel.send(responseJson.send_msg.text, sendOpt).then(sentMsg => {
           requiresSentMsg(msg, args, argsStr, responseJson, sentMsg);
           if (deleteAfter > 0) sentMsg.delete({ timeout: deleteAfter });
         });
