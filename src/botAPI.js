@@ -20,7 +20,7 @@ function parseCondition(condition, args) {
   let has_true = false;
   let has_false = false;
   let splitStr = condition.trim().split(' ');
-  for (i in splitStr) {
+  for (let i in splitStr) {
     entry = splitStr[i];
     if (entry.includes('arg.')) {
       index = parseInt(entry.replace('arg.', ''));
@@ -28,16 +28,15 @@ function parseCondition(condition, args) {
     }
     splitStr[i] = entry;
   }
-  for (i in splitStr) {
-    switch (splitStr[i]) {
+  for (let i in splitStr) {
+    let ind = splitStr.indexOf(i);;
+    switch (i) {
       case "==":
-        ind = splitStr.indexOf(splitStr[i]);
         if (splitStr[ind - 1] == splitStr[ind + 1]) {
           has_true = true;
         } else has_false = true;
         break;
       case "!=":
-        ind = splitStr.indexOf(splitStr[i]);
         if (splitStr[ind - 1] != splitStr[ind + 1]) {
           has_true = true;
         } else has_false = true;
