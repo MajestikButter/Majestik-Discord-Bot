@@ -10,6 +10,7 @@ const bot = new Client();
 
 
 bot.on('message', (msg) => {
+    if (!msg.guild) return;
     if (getServerFile(msg.guild.id) == null) {
         let template = fs.readFileSync(serverDataDir + '.template');
         fs.writeFileSync(serverDataDir + msg.guild.id + '.json', template);
@@ -40,7 +41,7 @@ bot.on('message', (msg) => {
         }
     });
 
-    if (invalid == false)
+    if (!invalid)
         return;
 
     const customCmds = getServerFile(msg.guild.id).bot_api.cmds;
@@ -58,12 +59,11 @@ bot.on('message', (msg) => {
             } else {
                 msg.channel.send('Missing Required Permissions').then(sentMsg => { sentMsg.delete({ timeout: 2000 }) });
             }
-
             invalid = false;
         }
     }
 
-    if (invalid == true)
+    if (invalid)
         msg.channel.send('Invalid Command').then(sentMsg => { sentMsg.delete({ timeout: 2000 }) });
 });
 

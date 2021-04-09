@@ -22,7 +22,7 @@ const baseResponse = {
     text: '',
     embed: {},
     delete_after: false,
-    to: 'channel'
+    to: 'channel:{$channel.id}'
   }
 }
 

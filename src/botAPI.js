@@ -128,8 +128,8 @@ function responseEntries(msg, args, argsStr, responseJson) {
     }
 
     let deleteAfter = 0;
-    if (responseJson.send_msg.deleteAfter) {
-      deleteAfter = responseJson.send_msg.deleteAfter;
+    if (responseJson.send_msg.delete_after) {
+      deleteAfter = responseJson.send_msg.delete_after;
       if (typeof (deleteAfter) != 'number' && typeof (deleteAfter) != 'boolean') {
         errorInvType(msg, 'response/send_msg/delete_after', responseJson.send_msg, 'Boolean, Number');
         return;
@@ -139,17 +139,21 @@ function responseEntries(msg, args, argsStr, responseJson) {
     let sendOpt = {}
     if (JSON.stringify(responseJson.send_msg.embed) != '{}') sendOpt.embed = responseJson.send_msg.embed;
 
-    switch (to) {
-      case "sender":
-        msg.author.send(responseJson.send_msg.text, sendOpt).then(sentMsg => {
-          requiresSentMsg(msg, args, argsStr, responseJson, sentMsg);
-          if (deleteAfter > 0) sentMsg.delete({ timeout: deleteAfter });
+    switch (to.split(':')[0]) {
+      case "user":
+        msg.guild.members.cache.array().forEach(member=>{
+          if (member.user.id == to.split(':')[1]) member.user.send(responseJson.send_msg.text, sendOpt).then(sentMsg => {
+            requiresSentMsg(msg, args, argsStr, responseJson, sentMsg);
+            if (deleteAfter > 0) sentMsg.delete({ timeout: deleteAfter });
+          });
         });
         break;
       case "channel":
-        msg.channel.send(responseJson.send_msg.text, sendOpt).then(sentMsg => {
-          requiresSentMsg(msg, args, argsStr, responseJson, sentMsg);
-          if (deleteAfter > 0) sentMsg.delete({ timeout: deleteAfter });
+        msg.guild.channels.cache.array().forEach(channel=>{
+          if (channel.id == to.split(':')[1]) channel.send(responseJson.send_msg.text, sendOpt).then(sentMsg => {
+            requiresSentMsg(msg, args, argsStr, responseJson, sentMsg);
+            if (deleteAfter > 0) sentMsg.delete({ timeout: deleteAfter });
+          });
         });
         break;
       default:
