@@ -8,10 +8,10 @@ function errorInvType(msg, location, subject, allowed) {
   msg.channel.send(`Error: ${location} | Invalid type '${typeof (subject)}', Allowed Types: ${allowed}`);
 }
 
-function parseTree(obj, msg) {
+function parseTree(obj = {}, msg, args = [], argsStr = '') {
   for (let i in obj) {
-    if (typeof (obj[i]) == 'string') obj[i] = msgParser.parse(obj[i], msg);
-    if (typeof (obj[i]) == 'object' && ((Array.isArray(obj[i]) && obj[i].length > -1) || (!Array.isArray(obj[i]) && JSON.stringify(obj[i])!= '{}'))) parseTree(obj[i], msg);
+    if (typeof (obj[i]) == 'string') obj[i] = msgParser.parse(obj[i], msg, args, argsStr);
+    if (typeof (obj[i]) == 'object' && ((Array.isArray(obj[i]) && obj[i].length > -1) || (!Array.isArray(obj[i]) && JSON.stringify(obj[i])!= '{}'))) parseTree(obj[i], msg, args, argsStr);
   }
 }
 
@@ -21,14 +21,6 @@ function parseCondition(condition, args) {
   let has_true = false;
   let has_false = false;
   let splitStr = condition.trim().split(' ');
-  for (let i in splitStr) {
-    entry = splitStr[i];
-    if (entry.includes('arg.')) {
-      index = parseInt(entry.replace('arg.', ''));
-      entry = `'${args[index]}'`
-    }
-    splitStr[i] = entry;
-  }
   for (let ind = 0; ind < splitStr.length; ind++) {
     let entry = splitStr[ind];
 
@@ -70,7 +62,8 @@ function parseCondition(condition, args) {
 
 class triggers {
   cmd(msg, args, argsStr, cmdJson) {
-    parseTree(cmdJson.responses, msg);
+    parseTree(cmdJson.responses, msg, args, argsStr);
+    console.log(cmdJson.responses);
     for (let cmdResponse in cmdJson.responses) {
       let condition = cmdJson.responses[cmdResponse];
       let run = parseCondition(condition, args);
@@ -111,7 +104,7 @@ function requiresSentMsg(msg, args, argsStr, responseJson, botMsg) {
 
 function responseEntries(msg, args, argsStr, responseJson) {
   appendObj(responseJson, baseResponse);
-  parseTree(responseJson, msg);
+  parseTree(responseJson, msg, args, argsStr);
 
   if (typeof (responseJson.send_msg) != 'object' || Array.isArray(responseJson.send_msg)) {
     errorInvType(msg, 'response/send_msg', responseJson.send_msg, 'Object');
@@ -175,7 +168,7 @@ function responseEntries(msg, args, argsStr, responseJson) {
     return;
   }
   if (responseJson.delete_origin_msg) {
-    msg.delete();
+    msg.delete({ timeout: 100 });
   }
 
   if (typeof (responseJson.remove_roles) != 'object' || !Array.isArray(responseJson.remove_roles)) {

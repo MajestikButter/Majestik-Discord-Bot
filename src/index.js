@@ -34,9 +34,7 @@ bot.on('message', (msg) => {
             }
             if (hasPermission) {
                 cmd.on_run(msg, args, argsStr);
-            } else {
-                msg.channel.send('Missing Required Permissions').then(sentMsg => { sentMsg.delete({ timeout: 2000 }) });
-            }
+            } else msg.channel.send('Missing Required Permissions').then(sentMsg => { sentMsg.delete({ timeout: 2000 }) });
             invalid = false;
         }
     });

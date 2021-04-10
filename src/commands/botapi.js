@@ -36,41 +36,35 @@ function on_run(msg, args, argsStr) {
     case "view":
       switch (args[1]) {
         case "cmds":
-          msg.channel.send('', {
-            split: true,
-            embed: {
-              title: 'Commands',
-              description: `\`\`\`json\n${JSON.stringify(serverBotAPI.cmds, null, '  ')}\`\`\``
+          msg.channel.send(`\`\`\`json\n${JSON.stringify(serverBotAPI.cmds, null, '  ')}\`\`\``, {
+            split: {
+              prepend: '```json\n',
+              append: '```'
             }
           });
           break;
         case "responses":
-          msg.channel.send('', {
-            split: true,
-            embed: {
-              title: 'Responses',
-              description: `\`\`\`json\n${JSON.stringify(serverBotAPI.responses, null, '  ')}\`\`\``
-            }
-          });
-          break;
-        case undefined:
-          msg.channel.send('', {
-            split: true,
-            embed: {
-              title: 'All',
-              description: `\`\`\`json\n${JSON.stringify(serverBotAPI, null, '  ')}\`\`\``
+          msg.channel.send(`\`\`\`json\n${JSON.stringify(serverBotAPI.responses, null, '  ')}\`\`\``, {
+            split: {
+              prepend: '```json\n',
+              append: '```'
             }
           });
           break;
         default:
-          unknown(msg, args[1]);
+          msg.channel.send(`\`\`\`json\n${JSON.stringify(serverBotAPI, null, '  ')}\`\`\``, {
+            split: {
+              prepend: '```json\n',
+              append: '```'
+            }
+          });
       }
       break;
     case "edit":
       switch (args[1]) {
         case "cmds":
           if (serverBotAPI.cmds[args[2]]) {
-            let newJson = argsStr.slice(args[0].length + args[1].length + args[2].length + 3); //                          m;bapi edit cmds test {}
+            let newJson = argsStr.slice(args[0].length + args[1].length + args[2].length + 3);
             if (isJson(newJson)) {
               newJson = JSON.parse(newJson);
               serverBotAPI.cmds[args[2]] = newJson;
@@ -86,7 +80,7 @@ function on_run(msg, args, argsStr) {
           break;
         case "responses":
           if (serverBotAPI.responses[args[2]]) {
-            let newJson = argsStr.slice(args[0].length + args[1].length + args[2].length + 3); //                          m;bapi edit responses test {}
+            let newJson = argsStr.slice(args[0].length + args[1].length + args[2].length + 3);
             if (isJson(newJson)) {
               newJson = JSON.parse(newJson);
               serverBotAPI.responses[args[2]] = newJson;
@@ -122,6 +116,44 @@ function on_run(msg, args, argsStr) {
             msg.channel.send(`Deleted ${args[1]}/${args[2]}`).then(sentMsg => {
               sentMsg.delete({ timeout: 7500 });
             });
+          } else unknown(msg, args[2]);
+          break;
+        default:
+          unknown(msg, args[1]);
+      }
+      break;
+    case "new":
+      switch (args[1]) {
+        case "cmds":
+          if (!serverBotAPI.cmds[args[2]]) {
+            let newJson = argsStr.slice(args[0].length + args[1].length + args[2].length + 3);
+            if (isJson(newJson)) {
+              newJson = JSON.parse(newJson);
+              serverBotAPI.cmds[args[2]] = newJson;
+              updateBotAPI(serverBotAPI, msg);
+              msg.channel.send('', {
+                embed: {
+                  title: `Created ${args[1]}/${args[2]}`,
+                  description: '```json\n' + JSON.stringify(newJson, null, '  ') + '```'
+                }
+              });
+            } else unknown(msg, `\`\`json\n${newJson}\`\``);
+          } else unknown(msg, args[2]);
+          break;
+        case "responses":
+          if (!serverBotAPI.responses[args[2]]) {
+            let newJson = argsStr.slice(args[0].length + args[1].length + args[2].length + 3);
+            if (isJson(newJson)) {
+              newJson = JSON.parse(newJson);
+              serverBotAPI.responses[args[2]] = newJson;
+              updateBotAPI(serverBotAPI, msg);
+              msg.channel.send('', {
+                embed: {
+                  title: `Created ${args[1]}/${args[2]}`,
+                  description: '```json\n' + JSON.stringify(newJson, null, '  ') + '```'
+                }
+              });
+            } else unknown(msg, `\`\`json\n${newJson}\`\``);
           } else unknown(msg, args[2]);
           break;
         default:
