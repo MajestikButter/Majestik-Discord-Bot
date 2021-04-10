@@ -63,7 +63,6 @@ function parseCondition(condition, args) {
 class triggers {
   cmd(msg, args, argsStr, cmdJson) {
     parseTree(cmdJson.responses, msg, args, argsStr);
-    console.log(cmdJson.responses);
     for (let cmdResponse in cmdJson.responses) {
       let condition = cmdJson.responses[cmdResponse];
       let run = parseCondition(condition, args);

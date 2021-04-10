@@ -13,8 +13,8 @@ function parse(sending = '', msg, args = [], argsStr = '') {
     replace('${guild}', `${msg.guild}`).
     replace('${guild.id}', `${msg.guild.id}`);
 
-  if (args) {
-    parsed.replace('${argsStr}', argsStr);
+  if (argsStr) {
+    parsed = parsed.replace('${argsStr}', argsStr);
   }
 
   let splitStr = sending.trim().split(' ');
