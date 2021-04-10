@@ -33,6 +33,41 @@ function updateBotAPI(botAPIObj, msg) {
 function on_run(msg, args, argsStr) {
   let serverBotAPI = getServerFile(msg.guild.id).bot_api
   switch (args[0]) {
+    case "example":
+      let cmdObj = {
+        aliases: [
+          'ex'
+        ],
+        permissions: [
+          'ADMINISTRATOR'
+        ],
+        description: 'example description',
+        usage: 'example <mode> [subMode]',
+        responses: {
+          greet_hi: 'if_all ${arg.0} == greet ${arg.1} == 0',
+          greet_hello: 'if_all ${arg.0} == greet ${arg.1} == 1',
+          greet_hey: 'if_all ${arg.0} == greet ${arg.1} == 2',
+          any_test: '${arg.0} == example',
+          none_test: 'if_none ${arg.0} == greet ${arg.0} == example'
+        }
+      }
+      let responseObj = {
+        add_roles: [],
+        delete_origin_msg: true,
+        remove_roles: [],
+        react_with: [],
+        send_msg: {
+          text: 'Hi ${author}',
+          embed: {},
+          delete_after: false,
+          to: 'channel:{$channel.id}'
+        }
+      }
+      let cmdEmbed = '```json\n' + JSON.stringify(cmdObj, null, '  ') + '```'
+      let responseEmbed = '```json\n' + JSON.stringify(responseObj, null, '  ') + '```'
+      msg.channel.send('', { embed: { title: 'Command Example', description: cmdEmbed } });
+      msg.channel.send('', { embed: { title: 'Response Example', description: responseEmbed } });
+      break;
     case "view":
       switch (args[1]) {
         case "cmds":
