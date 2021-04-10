@@ -60,7 +60,7 @@ function on_run(msg, args, argsStr) {
           text: 'Hi ${author}',
           embed: {},
           delete_after: false,
-          to: 'channel:{$channel.id}'
+          to: 'channel:${channel.id}'
         }
       }
       let cmdEmbed = '```json\n' + JSON.stringify(cmdObj, null, '  ') + '```'
